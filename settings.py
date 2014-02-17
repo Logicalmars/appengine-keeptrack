@@ -20,14 +20,16 @@ INSTALLED_APPS = (
     'djangotoolbox',
     'autoload',
     'dbindexer',
+    'keeptrack',
 
     # djangoappengine should come last, so it can override a few manage.py commands
     'djangoappengine',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = (    
     # This loads the index definitions, so it has to come first
     'autoload.middleware.AutoloadMiddleware',
+    'google.appengine.ext.ndb.django_middleware.NdbDjangoMiddleware',
 
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
