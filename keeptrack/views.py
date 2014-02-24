@@ -1,5 +1,5 @@
 from keeptrack.models import Track, Entry
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from google.appengine.ext import ndb
 
@@ -23,4 +23,4 @@ def add_entry(request, track_id):
 		return HttpResponse("Wrong track number")
 	else:
 		track.add_entry()
-		return show_track(request, track_id)
+		return HttpResponseRedirect("/track/" + track_id)
