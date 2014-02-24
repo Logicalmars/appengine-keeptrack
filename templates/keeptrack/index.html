@@ -1,0 +1,10 @@
+<h3>All the tracks you have: </h3>
+{% if track_list %}
+    <ul>
+    {% for track in track_list %}
+        <li><a href="/track/{{track.key.id}}/">{{ track.name }}</a>: {{track.description}}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No tracks are available.</p>
+{% endif %}

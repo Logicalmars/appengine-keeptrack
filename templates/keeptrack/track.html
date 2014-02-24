@@ -1,0 +1,8 @@
+<h3>{{track.name}}</h3>
+<p>{{track.description}}</p>
+
+<ul>
+	{% for entry in entry_list %}
+		<li>{{entry.timestamp}}</li>
+	{% endfor %}
+</ul>
