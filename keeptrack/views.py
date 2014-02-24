@@ -7,6 +7,16 @@ def index(request):
 	track_list = Track.query().order(Track.name).fetch()
 	return render_to_response('keeptrack/index.html', {'track_list': track_list})
 
+def new_track(request):
+	if request.method == 'POST':
+		name = request.POST["track_name"]
+		description = request.POST["track_description"]
+		track = Track(name=name, description=description)
+		track.put()
+		return HttpResponseRedirect("/")
+	else:
+		return HttpResponseRedirect("/")
+
 def show_track(request, track_id):
 	key = ndb.Key('Track', int(track_id))
 	track = key.get()

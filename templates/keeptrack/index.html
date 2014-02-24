@@ -8,3 +8,14 @@
 {% else %}
     <p>No tracks are available.</p>
 {% endif %}
+
+<h4>Create a track: </h4>
+<form action="/track/" method="post">
+	<label for="track_name">Name: </label>
+	<input name="track_name" id="track_name"/>
+
+	<label for="track_description">Description: </label>
+	<input name="track_description" id="track_description"/>
+
+	<input type="submit" value="ADD"/>
+</form>
