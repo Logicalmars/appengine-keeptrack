@@ -9,8 +9,9 @@ class Track(ndb.Model):
 	description = ndb.StringProperty()
 	
 	def add_entry(self):
-		entry = Entry(parent=self.key, timestamp=timezone.now())
+		entry = Entry(parent=self.key)
 		entry.put()
 
 class Entry(ndb.Model):
-	timestamp = ndb.DateTimeProperty()	
+	timestamp = ndb.DateTimeProperty(auto_now_add=True)
+	

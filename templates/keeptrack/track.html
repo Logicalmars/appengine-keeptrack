@@ -1,10 +1,12 @@
+{%load tz%}
+
 <a href="/">Back</a>
 <h3>{{track.name}}</h3>
 <p>{{track.description}}</p>
 
 <ul>
 	{% for entry in entry_list %}
-		<li>{{entry.timestamp}}</li>
+		<li>{{entry.timestamp|localtime}}</li>
 	{% endfor %}
 </ul>
 
