@@ -40,10 +40,10 @@ def add_entry(request, track_id):
 		return HttpResponseRedirect("/track/" + track_id)
 
 def _correct_timezone(entry_list):
+	# Google ndb don't supoort tzinfo, so need to add UTC before displaying for users.
 	ret_list = []
 	for entry in entry_list:		
 		entry.timestamp = entry.timestamp.replace(tzinfo=timezone.utc)
 		ret_list.append(entry)
 
 	return ret_list
-			
