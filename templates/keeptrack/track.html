@@ -1,13 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Track index{% endblock %}
+
+{% block content %}
+
 {%load tz%}
 
-<a href="/">Back</a>
-<h3>{{track.name}}</h3>
-<p>{{track.description}}</p>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <a class="" href="/"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+    </div>
 
-<ul>
-	{% for entry in entry_list %}
-		<li>{{entry.timestamp}}</li>
-	{% endfor %}
-</ul>
+    <div class="panel-body">
+        <h2 class="">{{track.name}}</h2>
+        <p class="">{{track.description}}</p>
 
-<a href="/track/{{track.key.id}}/new">ADD</a>
+        <ul class="list-group">
+            {% for entry in entry_list %}
+                <li class="list-group-item">{{entry.timestamp}}</li>
+            {% endfor %}
+        </ul>
+
+        <a class="btn btn-primary" href="/track/{{track.key.id}}/new">ADD</a>
+    </div>
+</div>
+
+{% endblock %}

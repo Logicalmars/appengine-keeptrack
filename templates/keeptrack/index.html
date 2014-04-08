@@ -1,13 +1,25 @@
-<h3>All the tracks you have: </h3>
-{% if track_list %}
-    <ul>
-    {% for track in track_list %}
-        <li><a href="/track/{{track.key.id}}/">{{ track.name }}</a>: {{track.description}}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No tracks are available.</p>
-{% endif %}
+{% extends 'base.html' %}
+
+{% block title %}Track index{% endblock %}
+
+{% block content %}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">All the tracks you have</div>
+
+    <div class="panel-body">
+        {% if track_list %}
+        <ul class="list-group">
+        {% for track in track_list %}
+            <a href="/track/{{track.key.id}}/" class="list-group-item"> {{ track.name }} : {{track.description}} </a>
+        {% endfor %}
+        </ul>
+        {% else %}
+            <p>No tracks are available.</p>
+        {% endif %}
+    </div>
+</div>
+
 
 <h4>Create a track: </h4>
 <form action="/track/" method="post">
@@ -19,3 +31,5 @@
 
 	<input type="submit" value="ADD"/>
 </form>
+
+{% endblock %}
