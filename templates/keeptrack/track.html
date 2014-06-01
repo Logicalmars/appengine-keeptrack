@@ -17,14 +17,40 @@
 
         <ul class="list-group">
             {% for entry in entry_list %}
-                <li class="list-group-item">{{entry.timestamp}}</li>
-                <form action="/entry/{{entry.key.urlsafe}}">
-                  <button class="btn btn-warn" type="submit"> X </button>
-                </form>
+                <li class="list-group-item">
+                  <form class="form-horizontal" action="/entry/{{entry.key.urlsafe}}">
+                    <label>{{entry.timestamp}}</label>
+                    <button class="btn btn-danger btn-xs" type="submit"> X </button>
+                  </form>
+                </li>
             {% endfor %}
         </ul>
 
         <a class="btn btn-primary" href="/track/{{track.key.id}}/new">ADD</a>
+    </div>
+    <div id="calendar">
+      <table border="0" cellpadding="0" cellspacing="0" class="month table table-bordered">
+        <tr>
+          <th colspan="7" class="month">{{month_name}} {{year_name}}</th>
+        </tr>
+        <tr>
+          <th class="mon">Mon</th><th class="tue">Tue</th>
+          <th class="wed">Wed</th><th class="thu">Thu</th>
+          <th class="fri">Fri</th><th class="sat">Sat</th>
+          <th class="sun">Sun</th>
+        </tr>
+        {% for week in monthdays %}
+          <tr>
+            {% for day in week %}
+              {% if day != 0 %}
+                <td>{{day}}</td>
+              {% else %}
+                <td></td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
     </div>
 </div>
 
