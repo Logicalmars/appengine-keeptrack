@@ -18,6 +18,9 @@
         <ul class="list-group">
             {% for entry in entry_list %}
                 <li class="list-group-item">{{entry.timestamp}}</li>
+                <form action="/entry/{{entry.key.urlsafe}}">
+                  <button class="btn btn-warn" type="submit"> X </button>
+                </form>
             {% endfor %}
         </ul>
 

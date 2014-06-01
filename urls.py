@@ -13,8 +13,9 @@ dbindexer.autodiscover()
 urlpatterns = patterns('',
     ('^_ah/warmup$', 'djangoappengine.views.warmup'),
     ('^$', 'keeptrack.views.index'),
-    (r'^track/$', 'keeptrack.views.new_track'),    
+    (r'^track/$', 'keeptrack.views.new_track'),
     (r'^track/(?P<track_id>\d+)/$', 'keeptrack.views.show_track'),
     (r'^track/(?P<track_id>\d+)/new$', 'keeptrack.views.add_entry'),
     ('^admin/', include(admin.site.urls)),
+    (r'^entry/(?P<entry_key>[0-9a-zA-z\-]+)/$', 'keeptrack.views.remove_entry'),
 )
