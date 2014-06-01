@@ -27,6 +27,7 @@
         </ul>
 
         <a class="btn btn-primary" href="/track/{{track.key.id}}/new">ADD</a>
+        <a class="btn btn-success" href="/track/{{track.key.id}}/?calendar_days_shift={{days_shift}}">Last Month</a>
     </div>
     <div id="calendar">
       <table border="0" cellpadding="0" cellspacing="0" class="month table table-bordered">
@@ -42,8 +43,8 @@
         {% for week in monthdays %}
           <tr>
             {% for day in week %}
-              {% if day != 0 %}
-                <td>{{day}}</td>
+              {% if day.0 != 0 %}
+                <td class="text-{{day.1}}">{{day.0}}</td>
               {% else %}
                 <td></td>
               {% endif %}

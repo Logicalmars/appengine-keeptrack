@@ -16,6 +16,7 @@ xnoremap <silent>  :call multiple_cursors#new("v")
 nnoremap <silent>  :call multiple_cursors#new("n")
 nnoremap <silent>  :CtrlP
 nnoremap <silent>  :call repeat#wrap("\<C-R>",v:count)
+map  :w
 xmap  <Plug>SpeedDatingDown
 nmap  <Plug>SpeedDatingDown
 vnoremap   za
@@ -204,15 +205,22 @@ nmap <silent> [b <Plug>unimpairedBPrevious
 nmap <silent> [A <Plug>unimpairedAFirst
 nmap <silent> [a <Plug>unimpairedAPrevious
 map \d :call VimuxRunCommand(@v, 0)
+nmap ]t :PBoB
+nmap ]f :call PythonDec("function", 1)
+nmap ]e :PEoB
+nmap ]u :call PythonUncommentSelection()
+nmap ]< ]tV]e<
+nmap ]> ]tV]e>
+nmap ]# :call PythonCommentSelection()
+nmap ]J :call PythonDec("class", -1)
+nmap ]j :call PythonDec("class", 1)
+nmap ]F :call PythonDec("function", -1)
 vmap ]f :call PythonDec("function", 1)
 vmap ]F :call PythonDec("function", -1)
-nmap ]F :call PythonDec("function", -1)
 omap ]F :call PythonDec("function", -1)
 vmap ]j :call PythonDec("class", 1)
-nmap ]j :call PythonDec("class", 1)
 omap ]j :call PythonDec("class", 1)
 vmap ]J :call PythonDec("class", -1)
-nmap ]J :call PythonDec("class", -1)
 omap ]J :call PythonDec("class", -1)
 map ]<Down> :call PythonNextLine(1)
 map ]<Up> :call PythonNextLine(-1)
@@ -220,13 +228,10 @@ map ]d :call PythonSelectObject("function")
 map ]c :call PythonSelectObject("class")
 vmap ]u :call PythonUncommentSelection()
 vmap ]# :call PythonCommentSelection()
-nmap ]# :call PythonCommentSelection()
 omap ]# :call PythonCommentSelection()
 vmap ]> >
-nmap ]> ]tV]e>
 omap ]> ]tV]e>
 vmap ]< <
-nmap ]< ]tV]e<
 omap ]< ]tV]e<
 map ]v ]tV]e
 vmap ]e :PEoBm'gv``
@@ -236,7 +241,6 @@ nmap ]xx <Plug>unimpaired_line_xml_decode
 xmap ]x <Plug>unimpaired_xml_decode
 nmap ]x <Plug>unimpaired_xml_decode
 nmap ]uu <Plug>unimpaired_line_url_decode
-nmap ]u :call PythonUncommentSelection()
 omap ]u :call PythonUncommentSelection()
 nmap ]yy <Plug>unimpaired_line_string_decode
 xmap ]y <Plug>unimpaired_string_decode
@@ -255,16 +259,13 @@ nnoremap ]od :diffoff
 nnoremap ]ou :set nocursorcolumn
 nnoremap ]oc :set nocursorline
 nnoremap ]ob :set background=dark
-nmap ]e :PEoB
 omap ]e :PEoB
 nmap ]  <Plug>unimpairedBlankDown
 omap ]n <Plug>unimpairedContextNext
 nmap ]n <Plug>unimpairedContextNext
 nmap ]o <Plug>unimpairedONext
-nmap ]f :call PythonDec("function", 1)
 omap ]f :call PythonDec("function", 1)
 nmap <silent> ]T <Plug>unimpairedTLast
-nmap ]t :PBoB
 omap ]t :PBoB
 nmap <silent> ] <Plug>unimpairedQNFile
 nmap <silent> ]Q <Plug>unimpairedQLast
@@ -407,6 +408,7 @@ set backup
 set backupdir=~/.vim/tmp/backup//
 set binary
 set cinoptions=:0,(s,u0,U1,g0,t0
+set cmdheight=2
 set completeopt=longest,menuone,preview
 set dictionary=/usr/share/dict/words
 set directory=~/.vim/tmp/swap//
@@ -415,7 +417,6 @@ set exrc
 set fileencodings=ucs-bom,utf-8,default,latin1
 set foldlevelstart=0
 set formatoptions=qrn1
-set gdefault
 set helplang=en
 set hidden
 set history=1000
@@ -423,6 +424,7 @@ set hlsearch
 set ignorecase
 set incsearch
 set laststatus=2
+set lazyredraw
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮,trail:␣
 set matchtime=2
 set nomodeline
@@ -443,7 +445,7 @@ set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.i
 set noswapfile
 set switchbuf=useopen
 set tabstop=4
-set textwidth=80
+set textwidth=68
 set notimeout
 set ttimeout
 set ttimeoutlen=10
@@ -453,7 +455,6 @@ set undolevels=3000
 set visualbell
 set wildignore=.svn,CVS,.git,.hg,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,.DS_Store,*.aux,*.out,*.toc,tmp,*.scssc,*.pyc
 set wildmenu
-set window=57
 set winwidth=83
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
@@ -463,23 +464,26 @@ if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
   let s:wipebuf = bufnr('%')
 endif
 set shortmess=aoO
-badd +32 keeptrack/views.py
+badd +53 keeptrack/views.py
 badd +31 django/contrib/gis/tests/geoapp/models.py
 badd +645 django/django/http/__init__.py
 badd +12 keeptrack/models.py
 badd +18 templates/keeptrack/track.html
-badd +27 templates/keeptrack/index.html
-badd +15 urls.py
+badd +23 templates/keeptrack/index.html
 badd +138 djangoappengine/djangoappengine/tests/keys.py
 badd +27 djangoappengine/djangoappengine/tests/mapreduce_input_readers.py
 badd +152 djangoappengine/tests/keys.py
-badd +26 djangoappengine/tests/mapreduce_input_readers.py
+badd +29 djangoappengine/tests/mapreduce_input_readers.py
 silent! argdel *
 edit keeptrack/views.py
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
 1wincmd h
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
 wincmd w
 wincmd _ | wincmd |
 split
@@ -489,11 +493,122 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 106 + 106) / 212)
-exe '2resize ' . ((&lines * 28 + 29) / 58)
-exe 'vert 2resize ' . ((&columns * 105 + 106) / 212)
-exe '3resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 3resize ' . ((&columns * 105 + 106) / 212)
+exe '1resize ' . ((&lines * 3 + 29) / 58)
+exe 'vert 1resize ' . ((&columns * 88 + 102) / 205)
+exe '2resize ' . ((&lines * 51 + 29) / 58)
+exe 'vert 2resize ' . ((&columns * 88 + 102) / 205)
+exe '3resize ' . ((&lines * 28 + 29) / 58)
+exe 'vert 3resize ' . ((&columns * 116 + 102) / 205)
+exe '4resize ' . ((&lines * 26 + 29) / 58)
+exe 'vert 4resize ' . ((&columns * 116 + 102) / 205)
+argglobal
+enew
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal binary
+setlocal bufhidden=wipe
+setlocal buflisted
+setlocal buftype=nofile
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=:0,(s,u0,U1,g0,t0
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=+1
+setlocal colorcolumn=+1
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != ''
+setlocal filetype=
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+set foldmethod=syntax
+setlocal foldmethod=syntax
+setlocal foldminlines=1
+setlocal foldnestmax=20
+set foldtext=MyFoldText()
+setlocal foldtext=MyFoldText()
+setlocal formatexpr=
+setlocal formatoptions=qrn1
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+set list
+setlocal list
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal nomodeline
+setlocal nomodifiable
+setlocal nrformats=octal,hex
+setlocal nonumber
+set numberwidth=3
+setlocal numberwidth=3
+setlocal omnifunc=syntaxcomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal previewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+set relativenumber
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(1)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != ''
+setlocal syntax=
+endif
+setlocal tabstop=4
+setlocal tags=
+setlocal textwidth=68
+setlocal thesaurus=
+setlocal undofile
+setlocal winfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+wincmd w
 argglobal
 let s:cpo_save=&cpo
 set cpo&vim
@@ -573,7 +688,8 @@ setlocal nocopyindent
 setlocal cryptmethod=
 setlocal nocursorbind
 setlocal nocursorcolumn
-setlocal nocursorline
+set cursorline
+setlocal cursorline
 setlocal define=^s*\\(def\\|class\\)
 setlocal dictionary=
 setlocal nodiff
@@ -639,7 +755,7 @@ setlocal nospell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
-setlocal statusline=%!airline#statusline(1)
+setlocal statusline=%!airline#statusline(2)
 setlocal suffixesadd=.py
 setlocal noswapfile
 setlocal synmaxcol=3000
@@ -652,141 +768,35 @@ setlocal textwidth=79
 setlocal thesaurus=
 setlocal undofile
 setlocal nowinfixheight
+set winfixwidth
 setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
-16
+14
 normal! zo
-27
+19
 normal! zo
-37
+30
 normal! zo
-47
+31
 normal! zo
-let s:l = 37 - ((35 * winheight(0) + 28) / 56)
+40
+normal! zo
+76
+normal! zo
+86
+normal! zo
+97
+normal! zo
+let s:l = 40 - ((14 * winheight(0) + 25) / 51)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-37
-normal! 021|
+40
+normal! 034|
 wincmd w
 argglobal
 edit templates/keeptrack/track.html
-setlocal keymap=
-setlocal noarabic
-setlocal autoindent
-setlocal binary
-setlocal bufhidden=
-setlocal buflisted
-setlocal buftype=
-setlocal nocindent
-setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
-setlocal cinoptions=:0,(s,u0,U1,g0,t0
-setlocal cinwords=if,else,while,do,for,switch
-set colorcolumn=+1
-setlocal colorcolumn=+1
-setlocal comments=s:<!--,m:\ \ \ \ ,e:-->
-setlocal commentstring=<!--%s-->
-setlocal complete=.,w,b,u,t,i
-setlocal concealcursor=
-setlocal conceallevel=0
-setlocal completefunc=
-setlocal nocopyindent
-setlocal cryptmethod=
-setlocal nocursorbind
-setlocal nocursorcolumn
-set cursorline
-setlocal cursorline
-setlocal define=
-setlocal dictionary=
-setlocal nodiff
-setlocal equalprg=
-setlocal errorformat=
-setlocal expandtab
-if &filetype != 'htmldjango'
-setlocal filetype=htmldjango
-endif
-setlocal foldcolumn=0
-setlocal foldenable
-setlocal foldexpr=0
-setlocal foldignore=#
-setlocal foldlevel=0
-setlocal foldmarker={{{,}}}
-set foldmethod=syntax
-setlocal foldmethod=syntax
-setlocal foldminlines=1
-setlocal foldnestmax=20
-set foldtext=MyFoldText()
-setlocal foldtext=MyFoldText()
-setlocal formatexpr=
-setlocal formatoptions=qrn1
-setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
-setlocal grepprg=
-setlocal iminsert=0
-setlocal imsearch=0
-setlocal include=
-setlocal includeexpr=
-setlocal indentexpr=GetCoffeeHtmlIndent(v:lnum)
-setlocal indentkeys=o,O,<Return>,<>>,{,},!^F
-setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255
-setlocal keywordprg=
-setlocal nolinebreak
-setlocal nolisp
-set list
-setlocal list
-setlocal makeprg=
-setlocal matchpairs=(:),{:},[:],<:>
-setlocal nomodeline
-setlocal modifiable
-setlocal nrformats=octal,hex
-setlocal nonumber
-set numberwidth=3
-setlocal numberwidth=3
-setlocal omnifunc=htmlcomplete#CompleteTags
-setlocal path=
-setlocal nopreserveindent
-setlocal nopreviewwindow
-setlocal quoteescape=\\
-setlocal noreadonly
-set relativenumber
-setlocal relativenumber
-setlocal norightleft
-setlocal rightleftcmd=search
-setlocal noscrollbind
-setlocal shiftwidth=2
-setlocal noshortname
-setlocal nosmartindent
-setlocal softtabstop=2
-setlocal nospell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
-setlocal spellfile=
-setlocal spelllang=en
-setlocal statusline=%!airline#statusline(2)
-setlocal suffixesadd=
-setlocal noswapfile
-setlocal synmaxcol=3000
-if &syntax != 'htmldjango'
-setlocal syntax=htmldjango
-endif
-setlocal tabstop=2
-setlocal tags=~/workspace/appengine-django-skeleton/.git/htmldjango.tags,~/workspace/appengine-django-skeleton/.git/tags,./tags,./TAGS,tags,TAGS
-setlocal textwidth=80
-setlocal thesaurus=
-setlocal undofile
-setlocal nowinfixheight
-setlocal nowinfixwidth
-setlocal wrap
-setlocal wrapmargin=0
-let s:l = 23 - ((17 * winheight(0) + 14) / 28)
-if s:l < 1 | let s:l = 1 | endif
-exe s:l
-normal! zt
-23
-normal! 050|
-wincmd w
-argglobal
-edit templates/keeptrack/index.html
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -892,19 +902,136 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 23 - ((8 * winheight(0) + 13) / 27)
+let s:l = 30 - ((7 * winheight(0) + 14) / 28)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-23
-normal! 0
+30
+normal! 0117|
+wincmd w
+argglobal
+edit templates/keeptrack/index.html
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal binary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=:0,(s,u0,U1,g0,t0
+setlocal cinwords=if,else,while,do,for,switch
+set colorcolumn=+1
+setlocal colorcolumn=+1
+setlocal comments=s:<!--,m:\ \ \ \ ,e:-->
+setlocal commentstring=<!--%s-->
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'htmldjango'
+setlocal filetype=htmldjango
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+set foldmethod=syntax
+setlocal foldmethod=syntax
+setlocal foldminlines=1
+setlocal foldnestmax=20
+set foldtext=MyFoldText()
+setlocal foldtext=MyFoldText()
+setlocal formatexpr=
+setlocal formatoptions=qrn1
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=GetCoffeeHtmlIndent(v:lnum)
+setlocal indentkeys=o,O,<Return>,<>>,{,},!^F
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+set list
+setlocal list
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:],<:>
+setlocal nomodeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+setlocal nonumber
+set numberwidth=3
+setlocal numberwidth=3
+setlocal omnifunc=htmlcomplete#CompleteTags
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+set relativenumber
+setlocal relativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=2
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=%!airline#statusline(4)
+setlocal suffixesadd=
+setlocal noswapfile
+setlocal synmaxcol=3000
+if &syntax != 'htmldjango'
+setlocal syntax=htmldjango
+endif
+setlocal tabstop=2
+setlocal tags=~/workspace/appengine-django-skeleton/.git/htmldjango.tags,~/workspace/appengine-django-skeleton/.git/tags,./tags,./TAGS,tags,TAGS
+setlocal textwidth=80
+setlocal thesaurus=
+setlocal undofile
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+let s:l = 1 - ((0 * winheight(0) + 13) / 26)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 022|
 wincmd w
 2wincmd w
-exe 'vert 1resize ' . ((&columns * 106 + 106) / 212)
-exe '2resize ' . ((&lines * 28 + 29) / 58)
-exe 'vert 2resize ' . ((&columns * 105 + 106) / 212)
-exe '3resize ' . ((&lines * 27 + 29) / 58)
-exe 'vert 3resize ' . ((&columns * 105 + 106) / 212)
+exe '1resize ' . ((&lines * 3 + 29) / 58)
+exe 'vert 1resize ' . ((&columns * 88 + 102) / 205)
+exe '2resize ' . ((&lines * 51 + 29) / 58)
+exe 'vert 2resize ' . ((&columns * 88 + 102) / 205)
+exe '3resize ' . ((&lines * 28 + 29) / 58)
+exe 'vert 3resize ' . ((&columns * 116 + 102) / 205)
+exe '4resize ' . ((&lines * 26 + 29) / 58)
+exe 'vert 4resize ' . ((&columns * 116 + 102) / 205)
 tabnext 1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

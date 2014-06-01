@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response
 from google.appengine.ext import ndb
 from django.utils import timezone
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from calendar import HTMLCalendar
 import calendar
 
@@ -27,24 +27,49 @@ def new_track(request):
         return HttpResponseRedirect("/")
 
 
+def day_mk(day, marked_days):
+    """
+    The return string is combined with "text-", such as "text-info"
+    """
+    if day in marked_days:
+        return "danger"
+    else:
+        return "muted"
+
+
 def show_track(request, track_id):
     key = ndb.Key('Track', int(track_id))
     track = key.get()
     if track is None:
         return HttpResponse("Wrong track number")
     else:
-        today = datetime.today()
-        c = HTMLCalendar()
-        monthdays = c.monthdayscalendar(today.year, today.month)
-        month_name = calendar.month_name[today.month]
+        if "calendar_days_shift" not in request.GET:
+            calendar_days_shift = 0
+        else:
+            calendar_days_shift = int(request.GET["calendar_days_shift"])
 
+        # Get the full list of entry
         entry_list = Entry.query(ancestor=key).order(Entry.timestamp).fetch()
+
+        today = datetime.today() + timedelta(days=calendar_days_shift)
+        c = HTMLCalendar()
+        origin_monthdays = c.monthdayscalendar(today.year, today.month)
+        month_name = calendar.month_name[today.month]
+        # Get a list of days with events in the current month
+        marked_days = [entry.timestamp.day for entry in entry_list
+                        if entry.timestamp.month == today.month]
+
+        monthdays = []
+        for week in origin_monthdays:
+            monthdays.append([(day, day_mk(day, marked_days)) for day in week])
+
         return render_to_response('keeptrack/track.html',
                                   {'track': track,
                                    'entry_list': _correct_timezone(entry_list),
                                    'monthdays': monthdays,
                                    'month_name': month_name,
-                                   'year_name': today.year
+                                   'year_name': today.year,
+                                   'days_shift': calendar_days_shift-30
                                    })
 
 
